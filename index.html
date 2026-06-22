@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Present Perfect vs. Past Simple — Práctica</title>
+<style>
+  :root{
+    --ink:#1b1b18;
+    --paper:#faf7f0;
+    --paper-dim:#f1ecdf;
+    --rule:#d8cfb8;
+    --accent:#5c4a72;
+    --accent-soft:#e3dceb;
+    --good:#3f6b3f;
+    --good-bg:#e6efe1;
+    --bad:#9a3324;
+    --bad-bg:#f6e3dc;
+    --mono: "JetBrains Mono", "Courier New", monospace;
+    --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--serif);
+    line-height:1.5;
+    padding-bottom:80px;
+  }
+
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  header.top{
+    border-bottom:3px solid var(--ink);
+    padding:48px 0 28px;
+    margin-bottom:8px;
+  }
+
+  .kicker{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:10px;
+  }
+
+  h1{
+    font-size:2.2rem;
+    margin:0 0 10px;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+
+  .sub{
+    font-size:1.02rem;
+    color:#4a4742;
+    max-width:600px;
+  }
+
+  .rulebox{
+    background:var(--paper-dim);
+    border:1px solid var(--rule);
+    border-left:4px solid var(--accent);
+    padding:18px 20px;
+    margin:28px 0 36px;
+    font-size:0.95rem;
+  }
+  .rulebox strong{color:var(--accent);}
+  .rulebox table{width:100%; border-collapse:collapse; margin-top:10px; font-size:0.9rem;}
+  .rulebox td{padding:5px 6px; vertical-align:top;}
+  .rulebox td.tag{
+    font-family:var(--mono);
+    font-size:0.72rem;
+    color:#6b6657;
+    white-space:nowrap;
+    padding-top:6px;
+  }
+
+  .progress-bar-outer{
+    position:sticky;
+    top:0;
+    background:var(--paper);
+    padding:12px 0;
+    z-index:10;
+    border-bottom:1px solid var(--rule);
+  }
+  .progress-bar-outer .wrap{padding-top:0;padding-bottom:0;}
+  .progress-track{
+    height:6px;
+    background:var(--paper-dim);
+    border:1px solid var(--rule);
+    border-radius:4px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--accent);
+    width:0%;
+    transition:width .25s ease;
+  }
+  .progress-label{
+    font-family:var(--mono);
+    font-size:11px;
+    color:#6b6657;
+    margin-top:6px;
+    display:flex;
+    justify-content:space-between;
+  }
+
+  .exercise{
+    border:1px solid var(--rule);
+    background:#fffdf8;
+    padding:20px 22px 18px;
+    margin-bottom:16px;
+    border-radius:2px;
+    position:relative;
+  }
+
+  .exercise-num{
+    font-family:var(--mono);
+    font-size:12px;
+    color:#9a9384;
+    margin-bottom:8px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .exercise-num .badge{
+    width:18px; height:18px;
+    border-radius:50%;
+    border:1px solid var(--rule);
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:10px;
+  }
+
+  .sentence{
+    font-size:1.1rem;
+    margin-bottom:14px;
+  }
+  .sentence .blank-marker{
+    border-bottom:2px dotted var(--accent);
+    padding:0 4px;
+    font-style:italic;
+    color:#9a9384;
+  }
+
+  .options{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+
+  .opt-btn{
+    font-family:var(--mono);
+    font-size:0.92rem;
+    padding:9px 14px;
+    border:1.5px solid var(--ink);
+    background:var(--paper);
+    color:var(--ink);
+    border-radius:3px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .opt-btn:hover{
+    background:var(--accent-soft);
+  }
+  .opt-btn:disabled{
+    cursor:default;
+  }
+  .opt-btn.correct{
+    background:var(--good-bg);
+    border-color:var(--good);
+    color:var(--good);
+  }
+  .opt-btn.incorrect{
+    background:var(--bad-bg);
+    border-color:var(--bad);
+    color:var(--bad);
+  }
+  .opt-btn.dim{
+    opacity:0.45;
+  }
+
+  .feedback{
+    margin-top:14px;
+    padding:12px 14px;
+    border-radius:3px;
+    font-size:0.92rem;
+    display:none;
+    line-height:1.55;
+  }
+  .feedback.show{display:block;}
+  .feedback.ok{
+    background:var(--good-bg);
+    border:1px solid var(--good);
+    color:#274527;
+  }
+  .feedback.no{
+    background:var(--bad-bg);
+    border:1px solid var(--bad);
+    color:#6b2316;
+  }
+  .feedback .why{
+    font-style:italic;
+    margin-top:4px;
+    color:inherit;
+  }
+
+  footer.summary{
+    margin-top:32px;
+    padding:28px 24px;
+    border:2px solid var(--ink);
+    background:var(--paper-dim);
+    text-align:center;
+  }
+  footer.summary h2{
+    margin:0 0 6px;
+    font-size:1.5rem;
+  }
+  #scoreText{
+    font-family:var(--mono);
+    font-size:1rem;
+    color:var(--accent);
+  }
+  .reset-btn{
+    margin-top:14px;
+    font-family:var(--mono);
+    font-size:0.85rem;
+    padding:10px 22px;
+    background:var(--ink);
+    color:var(--paper);
+    border:none;
+    border-radius:3px;
+    cursor:pointer;
+  }
+  .reset-btn:hover{opacity:0.85;}
+
+  @media (max-width:480px){
+    h1{font-size:1.6rem;}
+    .exercise{padding:16px 14px;}
+    .sentence{font-size:1rem;}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar-outer">
+  <div class="wrap">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label">
+      <span id="progressCount">0 / 30 respondidas</span>
+      <span id="progressScore">Aciertos: 0</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="top">
+    <div class="kicker">Grammar Drill · Present Perfect vs. Past Simple</div>
+    <h1>Present Perfect vs. Past Simple</h1>
+    <p class="sub">30 ejercicios para distinguir cuándo el momento exacto importa (past simple) y cuándo solo importa el resultado o la conexión con el presente (present perfect). Elige la opción correcta.</p>
+  </header>
+
+  <div class="rulebox">
+    <strong>Repaso rápido:</strong>
+    <table>
+      <tr><td class="tag">PAST SIMPLE</td><td>Acción terminada en un momento <b>específico y ya pasado</b>, desconectado del presente. Suele venir con marcadores de tiempo: <i>yesterday, last week, in 2020, when I was young, ago</i>. "I visited Paris in 2019."</td></tr>
+      <tr><td class="tag">PRESENT PERFECT</td><td>Acción pasada cuyo <b>resultado o relevancia continúa en el presente</b>, o cuyo momento exacto no se especifica/no importa. Se usa con <i>ever, never, already, yet, just, for, since</i>. "I have visited Paris" (en algún momento de mi vida, sin decir cuándo)."</td></tr>
+      <tr><td class="tag">⚠️ Regla de oro</td><td>Si la oración menciona o implica un <b>momento específico ya cerrado</b> (yesterday, last year, in 2015), SIEMPRE va past simple, nunca present perfect. Este es el error más común de hispanohablantes.</td></tr>
+      <tr><td class="tag">FOR vs SINCE</td><td><i>For</i> + duración ("for three years"); <i>since</i> + punto de partida ("since 2020"). Ambos suelen ir con present perfect cuando la acción continúa hasta ahora.</td></tr>
+      <tr><td class="tag">JUST / ALREADY / YET</td><td><i>Just</i> (acabo de) y <i>already</i> (ya) suelen ir con present perfect en afirmativo; <i>yet</i> (todavía/aún) se usa en negativo y preguntas. "I've just finished." / "Have you finished yet?"</td></tr>
+      <tr><td class="tag">EVER / NEVER</td><td>Para preguntar o afirmar sobre experiencias de vida sin momento específico: "Have you ever been to Japan?" / "I have never tried sushi."</td></tr>
+    </table>
+  </div>
+
+  <div id="exerciseContainer"></div>
+
+  <footer class="summary">
+    <h2>Resultado final</h2>
+    <p id="scoreText">Responde los 30 ejercicios para ver tu puntaje.</p>
+    <button class="reset-btn" id="resetBtn">Reiniciar ejercicios</button>
+  </footer>
+
+</div>
+
+<script>
+const exercises = [
+  {sentence:"I ___ to Paris in 2019.", a:"went", b:"have gone", correct:"a",
+   why:"'In 2019' es un momento específico y cerrado en el pasado, así que se usa past simple."},
+  {sentence:"I ___ to Paris three times.", a:"went", b:"have gone", correct:"b",
+   why:"No se especifica cuándo ocurrieron esos viajes; importa la experiencia acumulada hasta ahora, así que se usa present perfect."},
+  {sentence:"She ___ her homework already.", a:"finished", b:"has finished", correct:"b",
+   why:"'Already' (ya) es un marcador típico de present perfect cuando el resultado importa ahora."},
+  {sentence:"She ___ her homework yesterday.", a:"finished", b:"has finished", correct:"a",
+   why:"'Yesterday' es un momento específico y cerrado; se usa past simple."},
+  {sentence:"___ you ever been to Japan?", a:"Did", b:"Have", correct:"b",
+   why:"'Ever' pregunta por experiencias de vida sin momento específico; se usa present perfect: 'Have you ever...'"},
+  {sentence:"___ you go to Japan last summer?", a:"Did", b:"Have", correct:"a",
+   why:"'Last summer' es un momento específico y cerrado; se usa past simple: 'Did you go...'"},
+  {sentence:"I ___ here for ten years.", a:"lived", b:"have lived", correct:"b",
+   why:"'For ten years' indica una acción que comenzó en el pasado y continúa hasta ahora; se usa present perfect."},
+  {sentence:"I ___ in Madrid for two years before moving to León.", a:"lived", b:"have lived", correct:"a",
+   why:"La acción ya terminó (ahora vive en León, no en Madrid); es un periodo cerrado en el pasado, así que se usa past simple."},
+  {sentence:"He ___ just arrived at the office.", a:"-", b:"has", correct:"b",
+   why:"'Just' (acabar de) en afirmativo se usa típicamente con present perfect: 'has just arrived'."},
+  {sentence:"___ you finished the report yet?", a:"Did", b:"Have", correct:"b",
+   why:"'Yet' en preguntas sobre algo que se espera que ya haya pasado se usa con present perfect."},
+  {sentence:"I ___ my keys somewhere — I can't find them now.", a:"lost", b:"have lost", correct:"b",
+   why:"El resultado de la acción (no tener las llaves) es relevante ahora; no se especifica cuándo las perdió, así que se usa present perfect."},
+  {sentence:"I ___ my keys yesterday, but I found them later.", a:"lost", b:"have lost", correct:"a",
+   why:"'Yesterday' marca un momento específico y cerrado, además la situación ya se resolvió; se usa past simple."},
+  {sentence:"Shakespeare ___ many famous plays.", a:"wrote", b:"has written", correct:"a",
+   why:"Shakespeare vivió en una época histórica específica y cerrada (murió en 1616); con personas que ya no están vivas o épocas cerradas, se usa past simple."},
+  {sentence:"My favorite author ___ ten novels so far.", a:"wrote", b:"has written", correct:"b",
+   why:"'So far' (hasta ahora) indica que la acción sigue relevante y posiblemente continuará; se usa present perfect."},
+  {sentence:"We ___ this company since 2015.", a:"ran", b:"have run", correct:"b",
+   why:"'Since 2015' marca el punto de inicio de una acción que continúa hasta el presente; se usa present perfect."},
+  {sentence:"We ___ that company for five years before selling it.", a:"ran", b:"have run", correct:"a",
+   why:"La acción ya terminó (la vendieron); es un periodo cerrado, así que se usa past simple."},
+  {sentence:"___ she call you this morning?", a:"Did", b:"Has", correct:"a",
+   why:"'This morning' ya terminó (estamos en otro momento del día) y se trata como tiempo cerrado y específico en inglés británico/americano estándar; se usa past simple."},
+  {sentence:"I ___ never seen such a beautiful sunset.", a:"-", b:"have", correct:"b",
+   why:"'Never' sin momento específico, hablando de experiencia de vida, se usa con present perfect: 'I have never seen...'"},
+  {sentence:"They ___ married for over twenty years now.", a:"were", b:"have been", correct:"b",
+   why:"'For over twenty years now' indica que el estado continúa hasta el presente; se usa present perfect."},
+  {sentence:"They ___ married for five years before they got divorced.", a:"were", b:"have been", correct:"a",
+   why:"La situación ya terminó (se divorciaron); es un periodo cerrado en el pasado, así que se usa past simple."},
+  {sentence:"I haven't seen that movie ___.", a:"ago", b:"yet", correct:"b",
+   why:"'Yet' (todavía/aún) se usa en oraciones negativas con present perfect para indicar que algo no ha pasado pero se espera que pase."},
+  {sentence:"I saw that movie two days ___.", a:"ago", b:"yet", correct:"a",
+   why:"'Ago' siempre indica un punto específico en el pasado contado desde ahora, y siempre se usa con past simple, nunca con present perfect."},
+  {sentence:"Einstein ___ the theory of relativity.", a:"developed", b:"has developed", correct:"a",
+   why:"Es un hecho histórico de una persona que ya falleció, en un momento específico y cerrado del pasado; se usa past simple."},
+  {sentence:"Scientists ___ a new treatment for the disease recently.", a:"discovered", b:"have discovered", correct:"b",
+   why:"'Recently' sin un momento exacto especificado, con relevancia para el presente, se usa típicamente con present perfect."},
+  {sentence:"I ___ breakfast an hour ago.", a:"had", b:"have had", correct:"a",
+   why:"'An hour ago' es un marcador específico de past simple; nunca se combina con present perfect."},
+  {sentence:"___ you eaten breakfast yet, or are you still hungry?", a:"Did", b:"Have", correct:"b",
+   why:"'Yet' en pregunta sobre algo relevante para el momento actual (si tiene hambre ahora) se usa con present perfect."},
+  {sentence:"When ___ you move to León?", a:"did", b:"have", correct:"a",
+   why:"'When' pregunta por un momento específico, así que requiere past simple, no present perfect (en inglés estándar 'when' casi nunca se combina con present perfect)."},
+  {sentence:"I ___ this exact problem before — let me check my notes.", a:"saw", b:"have seen", correct:"b",
+   why:"No se especifica cuándo, y la experiencia es relevante para resolver el problema ahora; se usa present perfect."},
+  {sentence:"I ___ this exact problem last semester in my physics class.", a:"saw", b:"have seen", correct:"a",
+   why:"'Last semester' es un momento específico y cerrado; se usa past simple."},
+  {sentence:"This is the best coffee I ___ ever had.", a:"-", b:"have", correct:"b",
+   why:"Con superlativos ('the best... I have ever...') referidos a experiencias de vida sin momento concreto, se usa present perfect."}
+];
+
+const container = document.getElementById('exerciseContainer');
+let answered = new Array(exercises.length).fill(false);
+let score = 0;
+
+function renderExercise(ex, idx){
+  const div = document.createElement('div');
+  div.className = 'exercise';
+  div.id = 'ex-' + idx;
+
+  const sentenceHtml = ex.sentence.replace('___', '<span class="blank-marker">______</span>');
+
+  div.innerHTML = `
+    <div class="exercise-num"><span class="badge">${idx+1}</span> Elige la opción correcta</div>
+    <div class="sentence">${sentenceHtml}</div>
+    <div class="options">
+      <button class="opt-btn" data-choice="a">${ex.a}</button>
+      <button class="opt-btn" data-choice="b">${ex.b}</button>
+    </div>
+    <div class="feedback" id="fb-${idx}"></div>
+  `;
+
+  container.appendChild(div);
+
+  const buttons = div.querySelectorAll('.opt-btn');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => handleAnswer(idx, btn.dataset.choice, buttons, ex));
+  });
+}
+
+function handleAnswer(idx, choice, buttons, ex){
+  if(answered[idx]) return;
+  answered[idx] = true;
+
+  const isCorrect = choice === ex.correct;
+  if(isCorrect) score++;
+
+  buttons.forEach(btn => {
+    btn.disabled = true;
+    if(btn.dataset.choice === ex.correct){
+      btn.classList.add('correct');
+    } else if(btn.dataset.choice === choice && !isCorrect){
+      btn.classList.add('incorrect');
+    } else {
+      btn.classList.add('dim');
+    }
+  });
+
+  const fb = document.getElementById('fb-' + idx);
+  fb.classList.add('show', isCorrect ? 'ok' : 'no');
+  const correctWord = ex[ex.correct];
+  fb.innerHTML = isCorrect
+    ? `<strong>¡Correcto!</strong> "${correctWord}" es la respuesta. <div class="why">${ex.why}</div>`
+    : `<strong>Incorrecto.</strong> La respuesta correcta es "${correctWord}". <div class="why">${ex.why}</div>`;
+
+  updateProgress();
+}
+
+function updateProgress(){
+  const totalAnswered = answered.filter(Boolean).length;
+  const pct = Math.round((totalAnswered / exercises.length) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = `${totalAnswered} / ${exercises.length} respondidas`;
+  document.getElementById('progressScore').textContent = `Aciertos: ${score}`;
+
+  if(totalAnswered === exercises.length){
+    const pctScore = Math.round((score/exercises.length)*100);
+    document.getElementById('scoreText').textContent =
+      `Obtuviste ${score} de ${exercises.length} correctas (${pctScore}%).`;
+  }
+}
+
+function resetAll(){
+  answered = new Array(exercises.length).fill(false);
+  score = 0;
+  container.innerHTML = '';
+  exercises.forEach((ex, idx) => renderExercise(ex, idx));
+  updateProgress();
+  document.getElementById('scoreText').textContent = 'Responde los 30 ejercicios para ver tu puntaje.';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.getElementById('resetBtn').addEventListener('click', resetAll);
+
+exercises.forEach((ex, idx) => renderExercise(ex, idx));
+updateProgress();
+</script>
+
+</body>
+</html>
